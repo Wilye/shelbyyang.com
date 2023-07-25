@@ -1,0 +1,49 @@
+body{
+    font-family: Arial, sans-serif;
+}
+header {
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 20px;
+}
+
+nav {
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 10px;
+}
+
+nav a {
+    margin: 0 15px;
+    text-decoration:none;
+    color: black;
+}
+
+section {
+    margin: 20px;
+}
+
+footer{
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%
+}
+
+.about-content {
+    text-align: center; /* Center the contents */
+}
+
+.about-photo {
+    width: 200px; /* Adjust the width as needed */
+    height: auto; /* Maintain the aspect ratio */
+    margin: 0 auto; /* Center the image */
+}
+
+.about-text {
+    max-width: 800px; /* Set a maximum width for the text */
+    margin: 0 auto; /* Center the text */
+    text-align: left; /* Left-align the text */
+}
