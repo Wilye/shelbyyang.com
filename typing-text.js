@@ -5,8 +5,8 @@ let j = 0;
 let phrases = [
     "Hey!",
     "I'm Shelby Yang.",
-    "I've used Java, C/C++, Python<, SQL, and more.",
-    "Please use my website to learn more about me."
+    "I've used Java, C/C++, Python, SQL, and more.",
+    "Please use my website to learn more about me!"
 ];
 
 window.onload = loop;
