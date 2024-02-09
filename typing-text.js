@@ -5,7 +5,7 @@ let j = 0;
 let phrases = [
     "Hey!",
     "I'm Shelby Yang.",
-    "I've used <span style='color: red;'>Java</span>, <span style='color: blue;'>C++</span>, <span style='color: yellow;'>Python</span>, <span style='color: green;'>SQL</span>, and more.",
+    "I've used Java, C/C++, Python<, SQL, and more.",
     "Please use my website to learn more about me."
 ];
 
