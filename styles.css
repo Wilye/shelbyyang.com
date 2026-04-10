@@ -78,4 +78,30 @@ body {
 .comment {
     color: var(--dim);
     font-size: 13px;
+    padding-left: 6px;
+}
+
+.status {
+    margin-top: 40px; padding-top: 28px;
+    border-top: 1px solid #1e1e1e;
+    font-size: 12px; color: var(--dim); line-height: 1.7;
+}
+.status .status-dot { color: var(--accent); }
+
+.personal-bests {
+    padding-top: 28px;
+    font-size: 13px
+}
+
+.pb-table {
+    border-collapse: collapse;
+}
+
+.pb-label {
+    color: var(--dim);
+    padding-right: 24px;
+}
+
+.pb-value {
+    color: var(--fg);
 }
