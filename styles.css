@@ -6,6 +6,8 @@
 
 :root {
     --accent: #a8c4a2;
+    --fg: #d4d0c8;
+    --dim: #666;
 }
 
 body {
@@ -55,4 +57,25 @@ body {
   font-size: 12px;
   margin-bottom: 6px;
   letter-spacing: 0.05em;
+}
+
+.link-row a {
+    color: var(--fg);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.15s;
+}
+
+.link-row a::before { content: '[['; color: var(--dim); }
+.link-row a::after { content: ']]'; color: var(--dim); }
+
+.link-row a:hover,
+.link-row a:hover::before,
+.link-row a:hover::after {
+    color: var(--accent)
+}
+
+.comment {
+    color: var(--dim);
+    font-size: 13px;
 }
