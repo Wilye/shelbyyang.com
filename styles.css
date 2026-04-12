@@ -273,12 +273,12 @@ body {
 
     .page-layout {
         flex-direction: column;
-        min-height: auto;
-    }
-
-    .page-layout {
         height: auto;
         overflow: visible;
+    }
+
+    .main-content {
+        overflow-y: visible;
     }
 
     .terminal {
