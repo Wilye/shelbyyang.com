@@ -267,6 +267,8 @@ body {
 @media (max-width: 768px) {
     body {
         padding: 32px 24px;
+        height: auto;
+        overflow: auto;
     }
 
     .page-layout {
