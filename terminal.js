@@ -1,4 +1,32 @@
 (function () {
+  // theme
+  function setTheme(theme) {
+    if (theme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      theme = 'dark';
+    }
+    localStorage.setItem('theme', theme);
+    var toggles = document.querySelectorAll('.theme-toggle');
+    for (var i = 0; i < toggles.length; i++) {
+      toggles[i].textContent = theme === 'light' ? '\u263E' : '\u2600';
+    }
+  }
+
+  // apply saved theme on load
+  var savedTheme = localStorage.getItem('theme');
+  setTheme(savedTheme === 'light' ? 'light' : 'dark');
+
+  // bind toggle buttons
+  var toggles = document.querySelectorAll('.theme-toggle');
+  for (var i = 0; i < toggles.length; i++) {
+    toggles[i].addEventListener('click', function () {
+      var current = localStorage.getItem('theme') || 'dark';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+  }
+
   // filesystem tree
   var FS = {
     '~':        { url: '/',            children: ['blogs', 'photos'] },
@@ -31,6 +59,7 @@
 
   var dropdownIndex = -1;
   var dropdownItems = [];
+  var dropdownPrefix = '';
 
   // restore history from sessionStorage
   var saved = sessionStorage.getItem('terminal-history');
@@ -119,7 +148,7 @@
   }
 
   function selectDropdownItem(name) {
-    input.value = 'cd ' + name;
+    input.value = dropdownPrefix + name;
     hideDropdown();
     executeCommand(input.value.trim());
     input.value = '';
@@ -145,11 +174,26 @@
     appendPromptLine(cmd);
     hideDropdown();
 
+    if (cmd === 'theme light' || cmd === 'theme dark') {
+      var t = cmd.split(' ')[1];
+      setTheme(t);
+      appendResult('switched to ' + t + ' mode');
+      return;
+    }
+
+    if (cmd === 'theme') {
+      var current = localStorage.getItem('theme') || 'dark';
+      appendResult('current theme: ' + current);
+      appendResult('usage: theme light | theme dark');
+      return;
+    }
+
     if (cmd === 'help') {
       appendResult('available commands:');
       appendResult('  cd <dir>    navigate to directory');
       appendResult('  cd ..       go up one level');
       appendResult('  ls          list contents');
+      appendResult('  theme       toggle light/dark mode');
       appendResult('  help        show this message');
       appendResult('  clear       clear terminal');
       if (node && node.children.length > 0) {
@@ -226,10 +270,20 @@
     updatePlaceholder();
     var val = input.value;
     if (val.startsWith('cd ')) {
+      dropdownPrefix = 'cd ';
       var partial = val.slice(3);
       var options = getDropdownOptions(partial);
       if (options.length > 0) {
         showDropdown(options);
+      } else {
+        hideDropdown();
+      }
+    } else if (val.startsWith('theme ')) {
+      dropdownPrefix = 'theme ';
+      var partial = val.slice(6);
+      var themes = ['light', 'dark'].filter(function (t) { return t.startsWith(partial); });
+      if (themes.length > 0) {
+        showDropdown(themes);
       } else {
         hideDropdown();
       }
@@ -255,7 +309,7 @@
       e.preventDefault();
       if (dropdown.classList.contains('open') && dropdownItems.length > 0) {
         var target = dropdownIndex >= 0 ? dropdownItems[dropdownIndex].textContent : dropdownItems[0].textContent;
-        input.value = 'cd ' + target;
+        input.value = dropdownPrefix + target;
         hideDropdown();
         updatePlaceholder();
       }
