@@ -15,20 +15,16 @@ body {
     color: #e9e6e0;
     font-family: 'JetBrains Mono', 'Courier New', monospace;
     padding: 64px 0 64px 72px;
-    margin: 0;
-    height: 100vh;
-    overflow: hidden;
 }
 
 /* Two-column layout */
 .page-layout {
     display: flex;
     height: calc(100vh - 128px);
-    width: 100%;
 }
 
 .main-content {
-    flex: 0 0 560px;
+    flex: 0 0 560px; /* 560px width, and don't grow/shrink*/
     max-width: 560px;
     overflow-y: auto;
 }
@@ -273,12 +269,12 @@ body {
 
     .page-layout {
         flex-direction: column;
-        height: auto;
-        overflow: visible;
+        min-height: auto;
     }
 
-    .main-content {
-        overflow-y: visible;
+    .page-layout {
+        height: auto;
+        overflow: visible;
     }
 
     .terminal {
