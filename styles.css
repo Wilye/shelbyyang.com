@@ -309,6 +309,12 @@ body {
         overflow: visible;
     }
 
+    .main-content {
+        flex: none;
+        max-width: none;
+        overflow-y: visible;
+    }
+
     .terminal {
         display: none;
     }
