@@ -10,7 +10,7 @@
     localStorage.setItem('theme', theme);
     var toggles = document.querySelectorAll('.theme-toggle');
     for (var i = 0; i < toggles.length; i++) {
-      toggles[i].textContent = theme === 'light' ? '\u263E' : '\u2600';
+      toggles[i].textContent = theme === 'light' ? '\u263E' : '\u263C';
     }
   }
 
