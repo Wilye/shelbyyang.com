@@ -6,44 +6,68 @@
     <title>Shelby Yang</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="styles.css">
-    <link rel="icon" href="/favicon.ico">  
+    <link rel="icon" href="/favicon.ico">
 </head>
 <body>
-    <div class="screen">
-        <div class="title">Shelby Yang</div>
-        <div class="boot-line" id="boot"></div>
-            <p class="bio">
-                cs @ <span class="accent">ut austin</span> · turing scholar.<br>
-                incoming swe @ <span class="accent">google</span>, nyc.<br>
-                research on adaptive memory policies.<br>
-                previously: google, apple, reddit.
-            </p>
+    <div class="page-layout">
+        <div class="main-content">
+            <div class="screen">
+                <div class="title">
+                    <span>Shelby Yang</span>
+                    <nav class="nav-links">
+                        <a href="/blogs.html">blogs</a>
+                        <a href="/photos.html">photos</a>
+                    </nav>
+                </div>
+                <div class="boot-line" id="boot"></div>
+                    <p class="bio">
+                        cs @ <span class="accent">ut austin</span> · turing scholar.<br>
+                        incoming swe @ <span class="accent">google</span>, nyc.<br>
+                        research on adaptive memory policies.<br>
+                        previously: google, apple, reddit.
+                    </p>
+                </div>
+
+            <div class="links">
+                <div class="section-label">// links</div>
+                <div class="link-row"><a href="https://github.com/Wilye" target="_blank">github</a></div>
+                <div class="link-row"><a href="https://www.linkedin.com/in/shelbyyang/" target="_blank">linkedin</a></div>
+                <div class="link-row">
+                    <a href="mailto:shelbyyang@utexas.edu" target="_blank">email</a>
+                    <span class="comment">// shelbyyang@utexas.edu</span>
+                </div>
+                <div class="link-row"><a href="/resume.pdf" target="_blank">resume</a></div>
+                <div class="link-row"><a href="https://www.youtube.com/@shelbyyang" target="_blank">youtube</a></div>
+                <div class="link-row"><a href="https://x.com/WilyKB" target="_blank">twitter</a></div>
+            </div>
+            <div class="personal-bests">
+                <div class="section-label">// personal bests</div>
+                <table class="pb-table">
+                    <tr><td class="pb-label">typing speed</td><td class="pb-value">172 wpm <span class="comment">// monkeytype 30s</span></td></tr>
+                    <tr><td class="pb-label">bench press</td><td class="pb-value">80 lbs</td></tr>
+                    <tr><td class="pb-label">mile time</td><td class="pb-value">8:41</td></tr>
+                </table>
+            </div>
+            <div class="status">
+                <span class="status-dot">●</span> open to: new grad swe roles<br>
+                <span class="status-dot">●</span> graduating: may 2026<br>
+                <span class="status-dot">●</span> currently reading: project hail mary<br>
+            </div>
         </div>
-    
-    <div class="links">
-        <div class="section-label">// links</div>
-        <div class="link-row"><a href="https://github.com/Wilye" target="_blank">github</a></div>
-        <div class="link-row"><a href="https://www.linkedin.com/in/shelbyyang/" target="_blank">linkedin</a></div>
-        <div class="link-row">
-            <a href="mailto:shelbyyang@utexas.edu" target="_blank">email</a>
-            <span class="comment">// shelbyyang@utexas.edu</span>
+
+        <div class="terminal">
+            <div class="terminal-header">// terminal</div>
+            <div class="terminal-output"></div>
+            <div class="terminal-input-line">
+                <span class="terminal-prompt">visitor@shelby ~$&nbsp;</span>
+                <div class="terminal-input-wrap">
+                    <span class="terminal-placeholder">help</span>
+                    <input type="text" class="terminal-input" spellcheck="false" autocomplete="off">
+                    <div class="terminal-dropdown"></div>
+                </div>
+            </div>
         </div>
-        <div class="link-row"><a href="/resume.pdf" target="_blank">resume</a></div>
-        <div class="link-row"><a href="https://www.youtube.com/@shelbyyang" target="_blank">youtube</a></div>
-        <div class="link-row"><a href="https://x.com/WilyKB" target="_blank">twitter</a></div>
     </div>
-      <div class="personal-bests">                               
-      <div class="section-label">// personal bests</div>
-      <table class="pb-table">
-        <tr><td class="pb-label">typing speed</td><td class="pb-value">172 wpm <span class="comment">// monkeytype 30s</span></td></tr>
-        <tr><td class="pb-label">bench press</td><td class="pb-value">80 lbs</td></tr>
-        <tr><td class="pb-label">mile time</td><td class="pb-value">8:41</td></tr>
-        </table>
-  </div>
-    <div class="status">
-        <span class="status-dot">●</span> open to: new grad swe roles<br>
-        <span class="status-dot">●</span> graduating: may 2026<br>
-        <span class="status-dot">●</span> currently reading: project hail mary<br>
-    </div>
+    <script src="terminal.js"></script>
 </body>
 </html>
