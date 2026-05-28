@@ -133,6 +133,9 @@
   var dropdown = document.querySelector('.terminal-dropdown');
   var promptEl = document.querySelector('.terminal-prompt');
 
+  // pages without a terminal (e.g. notes) bail here
+  if (!input) return;
+
   // set the live prompt
   promptEl.innerHTML = PROMPT.replace(/ $/, '&nbsp;');
 
@@ -419,4 +422,5 @@
   });
 
   updatePlaceholder();
+  input.focus();
 })();
