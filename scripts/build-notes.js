@@ -229,7 +229,7 @@ function build() {
 
   buildSubtree(tree, '', '/notes/');
 
-  console.log(`built ${pageCount} page${pageCount === 1 ? '' : 's'} → ${path.relative(ROOT, OUTPUT_DIR)}/`);
+  console.log(`built ${pageCount} page${pageCount === 1 ? '' : 's'} -> ${path.relative(ROOT, OUTPUT_DIR)}/`);
 }
 
 build();
