@@ -54,6 +54,16 @@ body {
     margin-bottom: 2px;
 }
 
+.title-link {
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+.title-link:hover {
+    color: var(--accent);
+}
+
 .boot-line {
   color: var(--dim);
   font-size: 13px;
