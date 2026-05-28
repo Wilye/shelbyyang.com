@@ -61,6 +61,36 @@ body {
   min-height: 20px;
 }
 
+.boot-cursor {
+    display: inline-block;
+    color: var(--accent);
+    margin-left: 2px;
+    animation: boot-blink 1s steps(2) infinite;
+}
+
+@keyframes boot-blink {
+    50% { opacity: 0; }
+}
+
+body.pre-boot .nav-links,
+body.pre-boot .bio,
+body.pre-boot .links,
+body.pre-boot .personal-bests,
+body.pre-boot .status,
+body.pre-boot .terminal {
+    opacity: 0;
+}
+
+body.booted .nav-links,
+body.booted .bio,
+body.booted .links,
+body.booted .personal-bests,
+body.booted .status,
+body.booted .terminal {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
 .bio {
     font-size: 13px;
     line-height: 1.9;

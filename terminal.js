@@ -1,4 +1,67 @@
 (function () {
+  // boot animation
+  var bootEl = document.getElementById('boot');
+  if (bootEl) {
+    bootEl.innerHTML = '<span class="boot-text"></span><span class="boot-cursor">▊</span>';
+    var bootText = bootEl.querySelector('.boot-text');
+    var phrases = ['loading...', 'cooking...', 'tickling...'];
+    var typeSpeed = 75;
+    var deleteSpeed = 35;
+    var holdAfterType = 450;
+    var holdBetweenPhrases = 100;
+
+    function typeChar(text, i, done) {
+      if (i > text.length) { done(); return; }
+      bootText.textContent = text.slice(0, i);
+      setTimeout(function () { typeChar(text, i + 1, done); }, typeSpeed);
+    }
+
+    function deleteChar(i, done) {
+      if (i < 0) { done(); return; }
+      bootText.textContent = bootText.textContent.slice(0, i);
+      setTimeout(function () { deleteChar(i - 1, done); }, deleteSpeed);
+    }
+
+    function finishBoot() {
+      document.body.classList.remove('pre-boot');
+      document.body.classList.add('booted');
+    }
+
+    function runPhrase(idx) {
+      if (idx >= phrases.length) {
+        finishBoot();
+        return;
+      }
+
+      var phrase = phrases[idx];
+      var isLast = idx === phrases.length - 1;
+
+      function afterTyping() {
+        setTimeout(afterHold, holdAfterType);
+      }
+
+      function afterHold() {
+        if (isLast) {
+          runPhrase(idx + 1);
+        } else {
+          deleteChar(phrase.length - 1, afterDeleting);
+        }
+      }
+
+      function afterDeleting() {
+        setTimeout(nextPhrase, holdBetweenPhrases);
+      }
+
+      function nextPhrase() {
+        runPhrase(idx + 1);
+      }
+
+      typeChar(phrase, 1, afterTyping);
+    }
+
+    runPhrase(0);
+  }
+
   // theme
   function setTheme(theme) {
     if (theme === 'light') {
