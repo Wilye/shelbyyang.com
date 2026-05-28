@@ -107,7 +107,8 @@
 
   // filesystem tree
   var FS = {
-    '~':        { url: '/',            children: ['blogs', 'photos'] },
+    '~':        { url: '/',            children: ['notes', 'blogs', 'photos'] },
+    '~/notes':  { url: '/notes/',      children: [] },
     '~/blogs':  { url: '/blogs.html',  children: [] },
     '~/photos': { url: '/photos.html', children: [] },
   };

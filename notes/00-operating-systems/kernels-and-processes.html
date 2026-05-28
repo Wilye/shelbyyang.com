@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shelby Yang — Kernels and Processes</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link rel="icon" href="/favicon.ico">
+</head>
+<body class="pre-boot notes-page">
+    <div class="page-layout">
+        <div class="main-content">
+            <div class="title">
+                <a href="/" class="title-link">Shelby Yang</a>
+                <nav class="nav-links">
+                    <a href="/notes/">notes</a>
+                    <a href="/blogs.html">blogs</a>
+                    <a href="/photos.html">photos</a>
+                    <button class="theme-toggle" aria-label="Toggle theme">☼</button>
+                </nav>
+            </div>
+            <div class="boot-line" id="boot"></div>
+            <div class="section-label">// Kernels and Processes</div>
+            <article class="notes-content">
+<p>Operating Systems Principles &amp; Practice Volume I: Kernels and Processes - Anderson and Dahlin</p>
+<hr>
+<blockquote>
+<p>[!question] What is an Operating System?</p>
+</blockquote>
+<p>An operating system is the layer of software that manages a computer&#39;s resources for its users and their applications.</p>
+<p><u>Roles the OS plays</u></p>
+<ol>
+<li>referee: manages shared resources, isolates programs, protects from viruses</li>
+<li>illusionist: provides an abstraction of physical hardware, nearly infinite memory, program has processor to itself</li>
+<li>glue: provides set of common services (e.g. interface for application &lt;-&gt; hardware input and output)</li>
+</ol>
+<p>Shared Resources Challanges</p>
+<ol>
+<li>resource allocation<pre><code>while (true) {
+    ;
+}
+</code></pre>
+ should not cause computer to lock up</li>
+<li>isolation: an error in one application shouldn&#39;t disrupt other applications or the OS itself (<mark>fault isolation</mark>)<ul>
+<li>requires restricting the behavior of applications to less than the full power of the underlying hardware</li>
+</ul>
+</li>
+<li>communication: between different apps and users<ul>
+<li>isolation sets up boundaries</li>
+<li>communication allows those boundaries to be crossed in safe ways</li>
+</ul>
+</li>
+</ol>
+<p><mark>Virtualization</mark>: provides an application with the illusion of resources that are not physically present</p>
+<ul>
+<li>processors, memory, network packet drops, byte addressable files,</li>
+</ul>
+<p><mark>Virtual machine</mark>: running the OS as an application on top of the OS</p>
+<p>Provides common services to facilitate sharing among applications</p>
+<ul>
+<li>e.g. web server must be able to read the file that the text editor wrote</li>
+<li>OS provides a standard way for applications to pass messages and to share memory</li>
+<li>most applications can ignore differences in devices, interfaces, sensors, and versions with a <mark>generic interface</mark> provided by the OS</li>
+</ul>
+<p>OS addresses challenges found in other domains</p>
+<ul>
+<li>cloud computing</li>
+<li>web browsers</li>
+<li>multi user database systems<ul>
+<li>techniques in chapter 14 were originally developed for database systems</li>
+</ul>
+</li>
+</ul>
+<p>OS design evaluation criteria</p>
+<ul>
+<li>reliability and availability</li>
+<li>security</li>
+<li>portability</li>
+<li>performance</li>
+<li>adoption</li>
+</ul>
+<p>Single user operating system -&gt; batch operating system (load, run, unload) -&gt; multitasking operating system (multiple programs at once)</p>
+<p>Time sharing OS: user types input, causes an interrupt, handler reads the event, and queues it</p>
+<hr>
+<h2>The Kernel Abstraction</h2>
+<p><mark>Protection</mark>: the isolation of potentially misbehaving applications and users so they do not corrupt other applications or the OS itself</p>
+<p>Protection achieves a subset of the aforementioned goals / evaluation criteria</p>
+<ul>
+<li>reliability<ul>
+<li>prevents bugs in one program from causing crashes in other programs or in the OS</li>
+</ul>
+</li>
+<li>security<ul>
+<li>prevent untrusted code from modifying system state</li>
+</ul>
+</li>
+<li>privacy<ul>
+<li>each user must be limited to only the data that they are permitted access to</li>
+</ul>
+</li>
+<li>fair resource allocation<ul>
+<li>limit the amount of resources assigned to each application or user</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>[!info] The OS Kernel implements protection.</p>
+</blockquote>
+<p><mark>Kernel</mark>: the lowest level of software running on the system
+Kernel is trusted, everything else is untrusted</p>
+<p><mark>Process</mark>: execution of an application program with restricted rights</p>
+<ul>
+<li>abstraction for protected execution provided by the kernel</li>
+<li>kernel mediates and check&#39;s each process&#39;s access to hardware
+When we are running the OS kernel, it can do anything.
+When we are running a user application, the process&#39;s behavior is restricted.</li>
+</ul>
+<p>Page 51/164</p>
+<p><u>Writing and compiling a program</u>:</p>
+<ol>
+<li>Programmer types code in high level language</li>
+<li>Compiler converts code into machine instructions</li>
+<li>Compiler stores instructions in a file called the program&#39;s <mark>executable image</mark><ul>
+<li>compiler defines any static data the program needs + initial values, and includes in executable image</li>
+</ul>
+</li>
+</ol>
+<p><u>To run the program</u>:</p>
+<ol>
+<li>OS copies the instructions and data from the executable image into physical memory</li>
+<li>OS sets aside a memory region (the <mark>execution stack</mark>) to hold the state of local variables during procedure calls</li>
+<li>OS sets aside a memory region (the <mark>heap</mark>) for any dynamically allocated data structures the program might need</li>
+<li>OS can start the program by setting the stack pointer and jumping to the program&#39;s first instruction
+The OS itself is already loaded into memory with its own stack and heap
+The compiler itself is also just another program (OS starts the compiler by copying its executable image into memory and jumping to its first instruction)</li>
+</ol>
+<p>Running multiple copies of the same program:</p>
+<ul>
+<li>OS keeps a single copy of a program&#39;s instructions</li>
+<li>OS maintains separate copies of program&#39;s data, heap, and stack</li>
+</ul>
+<blockquote>
+<p>[!info] A process is an <em>instance</em> of a program</p>
+</blockquote>
+<ul>
+<li>each program can have 0, 1, or more processes executing it</li>
+</ul>
+<p>The OS keeps track of processes via the <mark>Process Control Block (PCB)</mark></p>
+<ul>
+<li>stores information the OS needs about a process</li>
+<li>where is it stored in memory?</li>
+<li>where is the executable image on disk?</li>
+<li>which user asked to execute it?</li>
+<li>what privileges does the process have?</li>
+</ul>
+<p>Each <mark>thread</mark> has its own program counter and stack, but operates on the same code and data as other threads. </p>
+<ul>
+<li>concurrent activities within a process is a thread</li>
+</ul>
+<p>Once a program is loaded into memory and the OS starts the process</p>
+<ul>
+<li>processor fetches, decodes, and executes each instruction</li>
+<li>instructions: multiplying registers and putting results in another register, read or write locations in memory, branches, etc.</li>
+</ul>
+<p><mark>Dual-mode operation</mark>: represented by a single bit in the processor status register</p>
+<ul>
+<li><mark>user mode</mark>: processor checks each instruction before executing it to verify that it is permitted</li>
+<li><mark>kernel mode</mark>: OS executes with protection checks turned off</li>
+</ul>
+<p>The program counter and mode bit control the processor&#39;s operation</p>
+<p>Three principles to so the OS can protect applications and users from one another:</p>
+<ul>
+<li>Privileged instructions (all potentially unsafe instructions are prohibited in user mode)</li>
+<li>Memory protection (memory accesses outside of valid region are prohibited in user mode)</li>
+<li>Timer interrupts (let kernel regain control from process)</li>
+</ul>
+<p>Processor status registor:</p>
+<ul>
+<li>1: kernel mode</li>
+<li>0: user mode
+Note: Kind of misleading?</li>
+<li>In x86, privilege level is encoded in CPL (current privilege level), the bottom 2 bits of the CS (code segment)<ul>
+<li>CPL 0 = kernel</li>
+<li>CPL 3 = user</li>
+</ul>
+</li>
+</ul>
+<p>Processes can change their privilege level by executing a system call (transfers control to kernel), otherwise, cannot change privilege level.</p>
+<p>Instructions available in kernel mode, but not in user mode, are <mark>privileged instructions</mark>.</p>
+<ul>
+<li>e.g. change set of memory locations it can access, disable and enable interrupts</li>
+</ul>
+<p><mark>Processor exception</mark> if an application attempts to access restricted memory or attempts to change its privilege level.</p>
+<h3>Memory Protection</h3>
+<blockquote>
+<p>[!info] Both the OS and the application are resident in memory at the same time</p>
+</blockquote>
+<ul>
+<li>application must be in memory to execute</li>
+<li>OS must be there to start the program and handle interrupts, processor exceptions, or system calls</li>
+</ul>
+<p>OS must be able to configure the hardware so that each application process can read and write only its own memory</p>
+<p>Early approach: <mark>base + bound</mark></p>
+<p>A processor uses two extra registers for base and bound
+Base: start of the process&#39;s memory region in physical memory
+Bound: endpoint</p>
+<p>These registers can be changed only by privileged instructions (kernel mode).</p>
+<p>Every time the processor fetches an instruction, it checks the address of the PC to see if it&#39;s between the base and bound registers.</p>
+<ul>
+<li>if so: proceed</li>
+<li>if not: hardware raises an exception
+For instructions that are reads / writes to memory, the processor checks each memory reference against the base and bound registers.</li>
+</ul>
+<p>OS kernel executes without the base and bound registers.</p>
+<p>When a program starts up, kernel finds a free block of contiguous physical memory with enough room to store the entire program, data, heap, and execution stack.</p>
+<p>Side quest:</p>
+<p>It just moves the stack pointer 🤣 boi am I stupid I was thinking how is it going to have enough registers for all my stack allocated variables.</p>
+<p><mark>Memory mapped devices</mark></p>
+<ul>
+<li>OS controls input/output devices (e.g. disk, network, or keyboard) by reading and writing to special memory locations</li>
+<li>Each device monitors the memory bus for the address assigned to it, and when it sees its address, the device triggers the desired I/O operation</li>
+</ul>
+<p><u>Cons of base + bound</u></p>
+<ul>
+<li>no expandable heap + stack once the program starts</li>
+<li>memory cannot be shared between different processes</li>
+<li>program may be loaded at different locations depending on what other programs are running at the same time, so the kernel must change every instruction and data location that refers to an absolute address each time the program is loaded into memory</li>
+<li>memory fragmentation</li>
+</ul>
+<p>So we have <mark>virtual addresses</mark>!! (indirection 😎)</p>
+<ul>
+<li>every program&#39;s memory starts at 0</li>
+<li>each process thinks it has the entire machine to itself</li>
+<li>hardware translates virtual addresses to physical addresses</li>
+<li>let the heap and stack start at separate ends of virtual address space<ul>
+<li>if either grows beyond initially allocated region, OS can move it to a different larger region in physical memory, but keep the same VA</li>
+</ul>
+</li>
+</ul>
+<p>With VA, multiple copies of the same program run simultaneously, each program will see the same virtual address locations* for its variables, even though they map to different physical addresses.</p>
+<ul>
+<li>*with no address randomization</li>
+</ul>
+<h3>Timer Interrupts</h3>
+<p>If the application becomes unresponsive (e.g. infinite loop) or the user wants to stop the application, then the OS must be able to <em>regain control</em></p>
+<p>If the application controls the processor, the OS is not running on that processor</p>
+<blockquote>
+<p>[!important] The kernel is not always running! But it has the illusion of always running (even kernel threads) due to interrupts</p>
+</blockquote>
+<p>Hardware timer: set to interrupt the processor after a specified delay</p>
+<ul>
+<li>per processor / core / CPU (interchangeable terms)</li>
+<li>resetting the timer is a privileged operation</li>
+</ul>
+<p>Main idea: stops poorly behaved programs that don&#39;t yield, or programs that run into infinite loops</p>
+<p>When the timer interrupt occurs, hardware transfers control from the user process to the kernel</p>
+<ul>
+<li>in most cases, after resetting the timer, the OS resumes execution of the process, setting the mode, program counter, and registers back to the values they had immediately before the interrupt occurred</li>
+</ul>
+<h4>Types of Mode Transfer</h4>
+<blockquote>
+<p>[!question] How to safely transition from executing a user process to kernel? And vice versa?</p>
+</blockquote>
+<p><u>User to kernel</u></p>
+<ul>
+<li>interrupts</li>
+<li>processor exceptions</li>
+<li>system calls</li>
+</ul>
+<p>Interrupts are asynchronous. Can be triggered by an external event and transfer to kernel mode after <em>any</em> user mode instruction.</p>
+<ul>
+<li>external events: timer, pressing a key, finished rendering a frame, etc.</li>
+</ul>
+<p>Processor exceptions and system calls are synchronous events triggered by process execution.</p>
+<ul>
+<li><mark>trap</mark>: any synchronous transfer of control from user mode to the kernel</li>
+</ul>
+<p><mark>Interrupt</mark></p>
+<ul>
+<li><strong>asynchronous signal to the processor some external event has occurred that may require its attention</strong></li>
+<li>as the processor executes instructions, checks for whether an interrupt has arrived</li>
+<li>if so, it completes or stalls any instructions that are in progress</li>
+<li>instead of fetching the next instruction, processor hardware saves the current execution state, and starts executing at a specifically designated interrupt handler in the kernel</li>
+<li>other processors are not affected by interrupts happening on a different processor</li>
+<li>each different type of interrupt has its own handler
+Alternative to interrupt, <mark>polling</mark>: kernel loops, checking each I/O device to see if an event has occurred that requires handling</li>
+<li>if kernel is polling, not available to run user level code</li>
+</ul>
+<p><mark>Interprocesser interrupts</mark>: processor can send interrupt to any other processor, used to coordinate actions across the processors</p>
+<p><mark>Processor Exception</mark></p>
+<ul>
+<li><strong>hardware event caused by user program behavior that causes control transfer to kernel</strong></li>
+<li>finishes all previous instructions, saves current execution state, and starts running at a specially designated exception handler</li>
+<li>e.g. process attempts a privileged instruction, accesses memory outside of its region, divide by 0</li>
+<li>OS halts the process and returns an error code to the user</li>
+<li>only stops execution on the processor triggering the exception
+Also triggered by setting a breakpoint in a program</li>
+<li>replaces the machine instruction in memory with a special instruction that invokes a trap</li>
+<li>when it reaches breakpoint, the kernel restores the old instruction and transfers control to the debugger</li>
+</ul>
+<p><mark>System Call</mark></p>
+<ul>
+<li>user process transition into kernel voluntarily to request the kernel perform an operation on the user&#39;s behalf</li>
+<li><strong>procedure provided by the kernel that can be called from the user level</strong></li>
+<li>usually a <code>trap</code> or <code>syscall</code> instruction</li>
+<li>starts executing in the kernel at a predefined handler</li>
+<li>e.g. establish connection to web server, send or receive packets over network, create or delete files</li>
+<li>caller only concerned with interface</li>
+</ul>
+
+            </article>
+        </div>
+        <aside class="notes-nav">
+            <div class="notes-nav-header">// directory</div>
+<ul class="notes-tree"><li><a href="/notes/00-operating-systems/" class="notes-tree-dir active">00 Operating Systems</a><ul class="notes-tree"><li><a href="/notes/00-operating-systems/kernels-and-processes.html" class="notes-tree-file active">Kernels and Processes</a></li></ul></li><li><a href="/notes/01-distributed-systems/" class="notes-tree-dir">01 Distributed Systems</a></li></ul>
+        </aside>
+    </div>
+    <script src="/terminal.js"></script>
+</body>
+</html>
