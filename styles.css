@@ -45,11 +45,6 @@ body {
     overflow-y: auto;
 }
 
-.screen {
-    max-width: 560px;
-    width: 100%
-}
-
 .title {
     display: flex;
     align-items: baseline;
