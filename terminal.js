@@ -8,7 +8,7 @@
     var finalPhrase = 'tickling...';
 
     if (sessionStorage.getItem(BOOT_DONE_KEY) === '1') {
-      // already booted this session — show final state immediately
+      // already booted this session, show final state immediately
       bootText.textContent = finalPhrase;
       document.body.classList.remove('pre-boot');
       document.body.classList.add('booted');
