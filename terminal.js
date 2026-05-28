@@ -1,9 +1,23 @@
 (function () {
   // boot animation
+  var BOOT_DONE_KEY = 'boot-done';
   var bootEl = document.getElementById('boot');
   if (bootEl) {
     bootEl.innerHTML = '<span class="boot-text"></span><span class="boot-cursor">▊</span>';
     var bootText = bootEl.querySelector('.boot-text');
+    var finalPhrase = 'tickling...';
+
+    if (sessionStorage.getItem(BOOT_DONE_KEY) === '1') {
+      // already booted this session — show final state immediately
+      bootText.textContent = finalPhrase;
+      document.body.classList.remove('pre-boot');
+      document.body.classList.add('booted');
+    } else {
+      runBootAnimation();
+    }
+  }
+
+  function runBootAnimation() {
     var phrases = ['loading...', 'cooking...', 'tickling...'];
     var typeSpeed = 75;
     var deleteSpeed = 35;
@@ -23,6 +37,7 @@
     }
 
     function finishBoot() {
+      sessionStorage.setItem(BOOT_DONE_KEY, '1');
       document.body.classList.remove('pre-boot');
       document.body.classList.add('booted');
     }
