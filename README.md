@@ -14,6 +14,7 @@
     - [ ] Let user choose between terminal and directory in the right sidebar
 - [ ] Switch from raw HTML/CSS/JS to some modern framework (optional ?)
 - [x] Fix cursor disappearing from terminal upon navigations
+- [ ] Incorporate a custom avatar that follows the cursor around (Live2D Cubism)
 
 ## Run on new machine
 ```
