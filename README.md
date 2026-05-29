@@ -25,7 +25,7 @@ npm install
 ./sync-notes.sh
 ```
 
-## Update Notes
+## How to Update Notes
 If edited notes in Obsidian, run (will auto build):
 ```
 ./sync-notes.sh
@@ -35,3 +35,6 @@ If notes weren't edited, and you only need to rebuild the markdown notes into HT
 ```
 node scripts/build-notes.js
 ```
+
+## Deployment
+Deployed with Cloudflare Pages. Notes are automatically built from `notes-src/`.
