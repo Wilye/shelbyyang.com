@@ -16,7 +16,11 @@ rsync -av --delete \
   --exclude='.obsidian' \
   --exclude='.DS_Store' \
   --exclude='.trash' \
+  --exclude='.gitkeep' \
   "$OBSIDIAN_DIR/" "$SOURCE_DIR/"
+
+# git can't track empty directories. drop a .gitkeep in any that exist so they survive the commit.
+find "$SOURCE_DIR" -type d -empty -exec touch {}/.gitkeep \;
 
 echo "building notes"
 node scripts/build-notes.js
