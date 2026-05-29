@@ -18,6 +18,7 @@
 - [ ] Make sure that the bootline keeps going when the user tabs out of the website
 - [ ] Fix the top navigation bar scrolling with the page
 - [ ] Add header support in directory navigation for notes (maybe do a dropdown?)
+- [ ] Make dark mode less dark
 
 ## Run on new machine
 ```
