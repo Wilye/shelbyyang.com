@@ -15,7 +15,7 @@
 - [ ] Switch from raw HTML/CSS/JS to some modern framework (optional ?)
 - [x] Fix cursor disappearing from terminal upon navigations
 - [ ] Incorporate a custom avatar that follows the cursor around (Live2D Cubism)
-- [ ] Fix the top navigation bar scrolling with the page
+- [x] Fix the top navigation bar scrolling with the page
 - [ ] Add header support in directory navigation for notes (maybe do a dropdown?)
 - [ ] Make dark mode less dark
 
