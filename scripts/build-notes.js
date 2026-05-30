@@ -132,15 +132,17 @@ function pageTemplate({ title, sectionLabel, body, navHtml }) {
     <div class="page-layout">
         <div class="main-content">
             <div class="title">
-                <a href="/" class="title-link">Shelby Yang</a>
-                <nav class="nav-links">
-                    <a href="/notes/">notes</a>
-                    <a href="/blogs.html">blogs</a>
-                    <a href="/photos.html">photos</a>
-                    <button class="theme-toggle" aria-label="Toggle theme">☼</button>
-                </nav>
+                <div class="title-row">
+                    <a href="/" class="title-link">Shelby Yang</a>
+                    <nav class="nav-links">
+                        <a href="/notes/">notes</a>
+                        <a href="/blogs.html">blogs</a>
+                        <a href="/photos.html">photos</a>
+                        <button class="theme-toggle" aria-label="Toggle theme">☼</button>
+                    </nav>
+                </div>
+                <div class="boot-line" id="boot"></div>
             </div>
-            <div class="boot-line" id="boot"></div>
             <div class="section-label">// ${escapeHtml(sectionLabel)}</div>
             <article class="notes-content">
 ${body}

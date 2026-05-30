@@ -52,17 +52,26 @@ body {
     top: 0;
     background: var(--bg);
     z-index: 10;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    /* border starts invisible and fades in along with the rest of the content */
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.5s ease;
+}
+
+body.booted .title {
+    border-bottom-color: var(--border);
+}
+
+.title-row {
     display: flex;
     align-items: baseline;
     gap: 16px;
     font-size: 15px;
     font-weight: 500;
-    padding-bottom: 12px;
-    margin-bottom: 24px;
-    border-bottom: 1px solid var(--border);
 }
 
-/* collapse the boot-line out of layout once boot has finished */
+/* boot-line sits inside .title (above the divider) during boot, then collapses away once booted */
 body.booted .boot-line {
     display: none;
 }
@@ -80,8 +89,8 @@ body.booted .boot-line {
 .boot-line {
   color: var(--dim);
   font-size: 13px;
-  margin-bottom: 32px;
   min-height: 20px;
+  margin-top: 8px;
 }
 
 .boot-cursor {
