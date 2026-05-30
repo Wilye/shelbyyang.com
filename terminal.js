@@ -3,16 +3,13 @@
   var BOOT_DONE_KEY = 'boot-done';
   var bootEl = document.getElementById('boot');
   if (bootEl) {
-    bootEl.innerHTML = '<span class="boot-text"></span><span class="boot-cursor">▊</span>';
-    var bootText = bootEl.querySelector('.boot-text');
-    var finalPhrase = 'tickling...';
-
     if (sessionStorage.getItem(BOOT_DONE_KEY) === '1') {
-      // already booted this session, show final state immediately
-      bootText.textContent = finalPhrase;
+      // already booted this session, leave bootline empty
       document.body.classList.remove('pre-boot');
       document.body.classList.add('booted');
     } else {
+      bootEl.innerHTML = '<span class="boot-text"></span><span class="boot-cursor">▊</span>';
+      var bootText = bootEl.querySelector('.boot-text');
       runBootAnimation();
     }
   }
@@ -36,10 +33,43 @@
       setTimeout(function () { deleteChar(i - 1, done); }, deleteSpeed);
     }
 
+    function glitchOut(done) {
+      var text = bootText.textContent;
+      var glitchChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*+=<>?/\\|';
+      var frames = 14;
+      var frameDuration = 20;
+      var i = 0;
+      bootEl.classList.add('glitching');
+
+      function step() {
+        if (i >= frames) {
+          bootEl.classList.remove('glitching');
+          done();
+          return;
+        }
+        var intensity = (i + 1) / frames;
+        var out = '';
+        for (var j = 0; j < text.length; j++) {
+          if (Math.random() < intensity) {
+            out += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+          } else {
+            out += text[j];
+          }
+        }
+        bootText.textContent = out;
+        i++;
+        setTimeout(step, frameDuration);
+      }
+      step();
+    }
+
     function finishBoot() {
       sessionStorage.setItem(BOOT_DONE_KEY, '1');
-      document.body.classList.remove('pre-boot');
-      document.body.classList.add('booted');
+      glitchOut(function () {
+        bootEl.innerHTML = '';
+        document.body.classList.remove('pre-boot');
+        document.body.classList.add('booted');
+      });
     }
 
     function runPhrase(idx) {

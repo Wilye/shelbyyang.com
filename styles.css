@@ -84,6 +84,18 @@ body {
     50% { opacity: 0; }
 }
 
+.boot-line.glitching {
+    animation: rgb-jitter 80ms steps(4) infinite;
+}
+
+@keyframes rgb-jitter {
+    0%   { text-shadow: -2px 0 #ff0066,  2px 0 #00fff7; }
+    25%  { text-shadow: -3px 1px #ff0066, 2px -1px #00fff7; }
+    50%  { text-shadow: -1px -1px #ff0066, 3px 1px #00fff7; }
+    75%  { text-shadow: -2px 1px #ff0066, 1px -1px #00fff7; }
+    100% { text-shadow: -2px 0 #ff0066,  2px 0 #00fff7; }
+}
+
 body.pre-boot .nav-links,
 body.pre-boot .bio,
 body.pre-boot .links,
