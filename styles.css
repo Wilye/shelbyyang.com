@@ -54,13 +54,23 @@ body {
     z-index: 10;
     padding-bottom: 12px;
     margin-bottom: 24px;
-    /* border starts invisible and fades in along with the rest of the content */
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.5s ease;
 }
 
-body.booted .title {
-    border-bottom-color: var(--border);
+/* divider lives as a pseudo-element so we can fade it via opacity (more reliable than animating border-color) */
+.title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--border);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+body.booted .title::after {
+    opacity: 1;
 }
 
 .title-row {
