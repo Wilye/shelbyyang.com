@@ -135,6 +135,13 @@ body.pre-boot .terminal {
     opacity: 0;
 }
 
+/* hidden content still occupies space; suppress the scrollbars it would create during boot */
+body.pre-boot .main-content,
+body.pre-boot .terminal,
+body.pre-boot .notes-nav {
+    overflow: hidden;
+}
+
 body.booted .nav-links,
 body.booted .bio,
 body.booted .links,
