@@ -45,6 +45,40 @@ body {
     flex: 0 0 560px; /* 560px width, and don't grow/shrink*/
     max-width: 560px;
     overflow-y: auto;
+    padding-right: 16px;
+}
+
+/* sleek scrollbar styling */
+.main-content,
+.terminal-output,
+.notes-nav {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+
+.main-content::-webkit-scrollbar,
+.terminal-output::-webkit-scrollbar,
+.notes-nav::-webkit-scrollbar {
+    width: 6px;
+}
+
+.main-content::-webkit-scrollbar-track,
+.terminal-output::-webkit-scrollbar-track,
+.notes-nav::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.main-content::-webkit-scrollbar-thumb,
+.terminal-output::-webkit-scrollbar-thumb,
+.notes-nav::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover,
+.terminal-output::-webkit-scrollbar-thumb:hover,
+.notes-nav::-webkit-scrollbar-thumb:hover {
+    background: var(--dim);
 }
 
 .title {
