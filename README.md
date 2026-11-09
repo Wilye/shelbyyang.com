@@ -38,3 +38,10 @@ node scripts/build-notes.js
 
 ## Deployment
 Deployed with Cloudflare Pages. Notes are automatically built from `notes-src/`.
+
+## Types of Commits
+- notes: update to Notes page
+- content: update to general content
+- feat: new feature to website (e.g. loading bar)
+- fix: bug fixes / fixing something broken
+- docs: update to docs like the README
