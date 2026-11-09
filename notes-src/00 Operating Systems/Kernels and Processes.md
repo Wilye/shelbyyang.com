@@ -258,3 +258,63 @@ Also triggered by setting a breakpoint in a program
 -  starts executing in the kernel at a predefined handler
 - e.g. establish connection to web server, send or receive packets over network, create or delete files
 - caller only concerned with interface
+
+<u>Kernel to User</u>
+- new process
+- resume after an interrupt, processor exception, or system call
+	- restores PC, registers, and changes back to user mode
+- switch to a different process
+- user level upcall
+	- receive asynchronous notification of events (not entirely sure what this means)
+
+==New Process==
+1. Kernel copies the program into memory
+2. Kernel sets the PC to the first instruction
+3. Kernel sets the stack pointer to the base of the user stack
+4. Kernel switches to user mode
+
+==Switch to a different process==
+- Kernel saves the process state (PC, registers, etc.) in the PCB
+- Kernel resumes a different process by loading its state from the PCB and switching to user mode
+- Context switch!!
+
+Whether user to kernel, or kernel to user, we have to be able to transfer *safely*.
+- to protect the kernel from buggy or malicious code!
+
+This is tricky because: the processor must save its state and switch what it is doing, *while* executing instructions that might alter its state.
+
+Therefore, the **context switch** generalized sequence:
+- Limited entry into the kernel
+	- hardware ensures the entry point into the kernel is one set up by the kernel
+	- user programs can't be allowed to jump to arbitrary locations in the kernel
+	- ex: kernel code for handling read file syscall first checks whether the user program has permission to do so
+- Atomic changes to processor state
+	- the mode, PC, stack, and memory protection are all changed at the same time
+	- memory protection as in who is being protected (user mode: prevent user process from accessing memory outside of its region, or kernel mode: allow kernel to access its own data and the user process)
+- Transparent, restartable execution
+	- OS must be able to restore the state of the user program EXACTLY as it was before the interrupt occurred
+		- an interrupt can happen whenever, e.g. if the process calculated a memory address, loaded it, and is about to store a value to that address
+	- an interrupt should be invisible (except for a temporary slow down)
+
+==Interrupt Vector Table==
+How does the processor know what code to run depending on what type of event occurred?
+- could be an interrupt (e.g. a timer interrupt)... processor exception (e.g. divide by zero)... system call trap (e.g. a file system read)
+
+![[Pasted image 20261109004305.png]]
+
+So, we have the **interrupt vector table**.
+- an array of pointers
+- each entry pointing to the first instruction of a different handler procedure in the kernel
+- ==interrupt handler==: the procedure called by the kernel on an interrupt
+
+Format is processor specific.
+- e.g. x86 entries 0-31 are for processor exceptions, 32-255 are for interrupts, and 64 points to system call trap handler\
+- hardware identifies:
+	1. what device caused the interrupt
+	2. whether the trap instruction was executed
+	3. what exception condition occurred
+- so the hardware selects the right entry from the interrupt vector table
+Some processors put a code indicating the cause of the interrupt into a special hardware register
+- I'm pretty sure this is what we implemented for OS with our syscall handler
+
+Page 70/164
